@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "e12fc419-1753-4623-af21-1fef39d4adb1",
+		"name": "exampleOfTestTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10439651",
+		"_collection_link": "https://www.postman.com/red-astronaut-323637/workspace/mykhailo-kovalenko/collection/10439651-e12fc419-1753-4623-af21-1fef39d4adb1?action=share&source=collection_link&creator=10439651"
+	},
+	"item": [
+		{
+			"name": "testsForTestPasswords",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const postRequest = {\r",
+							"  url: 'https://testusers.com&phone=phonenumber',\r",
+							"  method: 'GET'\r",
+							"};\r",
+							"pm.sendRequest(postRequest, function (err, response) {\r",
+							"    var jsonDataPreRequest = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check type of name\", function() {\r",
+							"pm.expect(jsonDataPreRequest.name).to.be.a('string');\r",
+							"});\r",
+							"pm.test(\"Check type of lastname\", function() {\r",
+							"pm.expect(jsonDataPreRequest.name).to.be.a('string');\r",
+							"});\r",
+							"pm.globals.set(\"name\", jsonDataPreRequest.name );\r",
+							"pm.globals.set(\"lastname\", jsonDataPreRequest.lastname);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.variables.replaceIn('{{$randomPassword}}');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200 / test AUTH\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Check userName\", function () {\r",
+							"        pm.expect(jsonData.userName).to.eql(pm.globals.get(\"name\"));\r",
+							"});\r",
+							"pm.test(\"Check userName\", function () {\r",
+							"        pm.expect(jsonData.userLastName).to.eql(pm.globals.get(\"lastname\"));\r",
+							"});\r",
+							"pm.test(\"Check type of userName\", function() {\r",
+							"pm.expect(jsonData.userName).to.be.a('string');\r",
+							"});\r",
+							"pm.test(\"Check type of userLastName\", function() {\r",
+							"pm.expect(jsonData.userLastName).to.be.a('string');\r",
+							"});\r",
+							"pm.test(\"Check type of userPhone\", function() {\r",
+							"pm.expect(jsonData.userPhone).to.be.a('string');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{vault:authorization-password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "login",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"{{$name}}\",\r\n    \"newPassword\": \"{{$randomPassword}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https:testpasswords.com",
+					"host": [
+						"https"
+					],
+					"port": "testpasswords.com"
+				}
+			},
+			"response": []
+		}
+	]
+}
