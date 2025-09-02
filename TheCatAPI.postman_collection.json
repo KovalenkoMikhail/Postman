@@ -1,0 +1,1063 @@
+{
+	"info": {
+		"_postman_id": "77d10075-9f83-4ad0-a773-27dd0039157c",
+		"name": "1. The Cat API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10439651",
+		"_collection_link": "https://www.postman.com/red-astronaut-323637/workspace/mykhailo-kovalenko/collection/10439651-77d10075-9f83-4ad0-a773-27dd0039157c?action=share&source=collection_link&creator=10439651"
+	},
+	"item": [
+		{
+			"name": "1. Auth Token should be valid",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Status 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 / test AUTH\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{cat-url}}",
+									"host": [
+										"{{cat-url}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Status 200 Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 / test AUTH\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.value).to.eql(100);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const postRequest = {\r",
+											"  url: 'https://testusers.com&phone=phonenumber',\r",
+											"  method: 'GET'\r",
+											"};\r",
+											"pm.sendRequest(postRequest, function (err, response) {\r",
+											"    var jsonDataPreRequest = pm.response.json();\r",
+											"});\r",
+											"\r",
+											"pm.variables.replaceIn('{{$randomPassword}}');\r",
+											"pm.globals.set(\"name\", jsonDataPreRequest.name );\r",
+											"pm.globals.set(\"lastname\", jsonDataPreRequest.lastname);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "password",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "login",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userName\": \"{{$name}}\",\r\n    \"newPassword\": \"{{$randomPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https:testpasswords.com",
+									"host": [
+										"https"
+									],
+									"port": "testpasswords.com"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Status 200 Copy 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200 / test AUTH\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Your test name\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.value).to.eql(100);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Example with a full-fledged request\r",
+											"const postRequest = {\r",
+											"  url: 'https://testusers.com&phone=phonenumber',\r",
+											"  method: 'GET',\r",
+											"\r",
+											"};\r",
+											"\r",
+											"pm.sendRequest(postRequest, function (err, response) {\r",
+											"    console.log(response.json());\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{cat-url}}",
+									"host": [
+										"{{cat-url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Status 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401 / test AUTH\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"    \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{cat-url}}",
+									"host": [
+										"{{cat-url}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "2. Parameters breed / category",
+			"item": [
+				{
+					"name": "Breeds",
+					"item": [
+						{
+							"name": "Positive",
+							"item": [
+								{
+									"name": "breed",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Positive test 'BREED'\", function () {\r",
+													"  \r",
+													"    var jsonData = pm.response.json();\r",
+													"  \r",
+													"    // console.log (jsonData[0].breedId[0].id)\r",
+													"\r",
+													"    const breedId = jsonData[0].breeds[0].id\r",
+													"   \r",
+													"    console.log (breedId)\r",
+													"   \r",
+													"    pm.expect(breedId).to.eql(\"beng\");\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-api-key",
+												"value": "{{Key}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{cat-url}}?limit=5&page=3&order=asc&breed_ids=beng",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5"
+												},
+												{
+													"key": "page",
+													"value": "3"
+												},
+												{
+													"key": "order",
+													"value": "asc"
+												},
+												{
+													"key": "breed_ids",
+													"value": "beng"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Negative",
+							"item": [
+								{
+									"name": "breed",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404 / test 'BREED'\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-api-key",
+												"value": "{{Key}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{cat-url}}?limit=5&page=3&order=asc&breed_id=testSobakaKusaka",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5"
+												},
+												{
+													"key": "page",
+													"value": "3"
+												},
+												{
+													"key": "order",
+													"value": "asc"
+												},
+												{
+													"key": "breed_id",
+													"value": "testSobakaKusaka"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "Positive",
+							"item": [
+								{
+									"name": "category",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Positive test 'CATEGORY'\", function () {\r",
+													"  \r",
+													"    var jsonData = pm.response.json();\r",
+													"  \r",
+													"    // console.log (jsonData[0].categories[0].id)\r",
+													"\r",
+													"    const categoryId = jsonData[0].categories[0].id\r",
+													"   \r",
+													"   // console.log (categoryId)\r",
+													"   \r",
+													"    pm.expect(categoryId).to.eql(7);\r",
+													"\r",
+													"\r",
+													"\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-api-key",
+												"value": "{{Key}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{cat-url}}?limit=5&page=3&order=desc&category_ids=7",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "5"
+												},
+												{
+													"key": "page",
+													"value": "3"
+												},
+												{
+													"key": "order",
+													"value": "desc"
+												},
+												{
+													"key": "category_ids",
+													"value": "7"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Negative",
+							"item": [
+								{
+									"name": "category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404 / test 'CATEGORY'\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "x-api-key",
+												"value": "{{Key}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{cat-url}}?limit=32&page=0&order=desc&category_ids=testovaya_sobaka",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "limit",
+													"value": "32"
+												},
+												{
+													"key": "page",
+													"value": "0"
+												},
+												{
+													"key": "order",
+													"value": "desc"
+												},
+												{
+													"key": "category_ids",
+													"value": "testovaya_sobaka"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Breeds / Categories",
+					"item": [
+						{
+							"name": "Positive",
+							"item": [
+								{
+									"name": "breed / category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"    pm.test(\"Positive test breedId\", function () {\r",
+													"    \r",
+													"        var jsonData = pm.response.json();\r",
+													"    \r",
+													"        // console.log (jsonData[0].breedId[0].id)\r",
+													"\r",
+													"        const breedId = jsonData[0].breeds[0].id\r",
+													"    \r",
+													"        console.log (breedId)\r",
+													"    \r",
+													"        pm.expect(breedId).to.eql(\"abys\");\r",
+													"});\r",
+													"\r",
+													"    pm.test(\"Positive test categoryId\", function () {\r",
+													"    \r",
+													"        var jsonData = pm.response.json();\r",
+													"    \r",
+													"        // console.log (jsonData[0].categories[0].id)\r",
+													"\r",
+													"        const categoryId = jsonData[0].categories[0].id\r",
+													"    \r",
+													"    // console.log (categoryId)\r",
+													"    \r",
+													"        pm.expect(categoryId).to.eql(7);\r",
+													"\r",
+													"\r",
+													"    });"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{cat-url}}?breed_ids=abys&category_id=7",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "breed_ids",
+													"value": "abys"
+												},
+												{
+													"key": "category_id",
+													"value": "7"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Negative",
+							"item": [
+								{
+									"name": "breed / category",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404 / test 'BREED / CATEGORY'\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{cat-url}}?breed_id=null&category_ids=null",
+											"host": [
+												"{{cat-url}}"
+											],
+											"query": [
+												{
+													"key": "breed_id",
+													"value": "null"
+												},
+												{
+													"key": "category_ids",
+													"value": "null"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "3. Check types: gif, jpg, png",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "Check type: gif",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Positive test type 'GIF'\", function () {\r",
+											"    \r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"\r",
+											"\r",
+											"    pm.expect(jsonData[0].url.substr(-3)).to.eql(\"gif\");\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"    // console.log(yourVariableHere)\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{cat-url}}?mime_types=gif",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "mime_types",
+											"value": "gif"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check type: jpg",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Positive test type 'JPG'\", function () {\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"   \r",
+											"    pm.expect(jsonData[0].url.substr(-3)).to.eql(\"jpg\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?mime_types=jpg",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "mime_types",
+											"value": "jpg"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check type: png",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Positive test type 'PNG'\", function () {\r",
+											"    \r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(jsonData[0].url.substr(-3)).to.eql(\"png\");\r",
+											"\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?mime_types=png",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "mime_types",
+											"value": "png"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Check types: gif. jpg, png",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Positive test type 'GIF'/'PNG'/'JPG'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"\r",
+											"    const picture = jsonData[0].url.substr(-3)\r",
+											"      console.log(picture)\r",
+											"      \r",
+											"    pm.expect((picture === \"gif\") || (picture === \"png\") || (picture == \"jpg\")).to.eql(true)\r",
+											" \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?mime_types=gif,jpg,png",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "mime_types",
+											"value": "gif,jpg,png"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "Check type: mp3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404 / test type'MP3'\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?mime_types=mp3",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "mime_types",
+											"value": "mp3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "4. Limits",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "limit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Positive test 'LIMIT'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"\r",
+											"    const picture = jsonData[0].url.substr(-3)\r",
+											"      console.log(picture)\r",
+											"\r",
+											"\r",
+											"for (let i = 0; i < 4; i++) {\r",
+											"        \r",
+											"    pm.expect((picture === \"gif\") || (picture === \"png\") || (picture == \"jpg\")).to.eql(true)\r",
+											" \r",
+											"}});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?limit=4",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "limit",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Negative test 'LIMIT'(4 element eql undefined)\", function () {\r",
+											"\r",
+											"    var jsonData = pm.response.json();\r",
+											"\r",
+											"    const picture = jsonData[0].url.substr(-3)\r",
+											"    console.log (picture)\r",
+											"    \r",
+											"    console.log(jsonData[4])\r",
+											"    pm.expect(jsonData[4]).to.eql(undefined)\r",
+											"\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "{{Key}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{cat-url}}?limit=4",
+									"host": [
+										"{{cat-url}}"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "spoguide-url",
+			"value": "https://api.thecatapi.com/v1/images/search"
+		},
+		{
+			"key": "KeyForTest",
+			"value": "2706e883-53ba-4ab3-9863-0c916e320b41"
+		},
+		{
+			"key": "negdanPer",
+			"value": "ValueForCollection"
+		},
+		{
+			"key": "test_pre-requestScript",
+			"value": ""
+		},
+		{
+			"key": "limitColl",
+			"value": ""
+		}
+	]
+}
